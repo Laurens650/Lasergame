@@ -1,0 +1,13 @@
+.clang
+.codelite
+__codelite.workspace
+_codelite.project
+compressed.txt
+*.o
+*.bin
+*.elf
+*.ld
+*.map
+*.mk
+*.exe
+bmptk_*_stack.c

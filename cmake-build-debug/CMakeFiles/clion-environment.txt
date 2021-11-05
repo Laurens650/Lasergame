@@ -1,0 +1,4 @@
+ToolSet: w64 6.0 (local)@C:\TI_SOFTWARE_JAAR2\i686-7.3.0-release-posix-dwarf-rt_v5-rev0\mingw32
+Options: 
+
+Options:

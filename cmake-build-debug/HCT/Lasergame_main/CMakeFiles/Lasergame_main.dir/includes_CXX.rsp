@@ -1,0 +1,1 @@
+-IC:/Python36/include -IC:/Lasergame/hwlib/library -IC:/Lasergame/Catch2/single_include -IC:/Lasergame/Catch2/single_include/catch2 -IC:/Lasergame/boost_1_69_0 -IC:/Lasergame/SFML-2.5.1-32/include -IC:/Lasergame/bmptk -IC:/Lasergame/bmptk/targets -IC:/Lasergame/Lasergame/Lasergame_main
