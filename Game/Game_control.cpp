@@ -51,7 +51,8 @@ class game_control : rtos::task<>{
             gameTime = gametime;
         }
         
-        game_control(schiet_control & s_control, timer_control & t_control, hit_control & h_control)
+        game_control(schiet_control & s_control, timer_control & t_control, hit_control & h_control):
+            rtos::task(4, "game_control"),
             s_control(s_control),
             t_control(t_control),
             h_control(h_control),
