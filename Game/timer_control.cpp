@@ -4,6 +4,8 @@
 class timer_control : rtos::task<>{
     enum state_t {IDLE, RUNNING};
     private:
+        state_t state = IDLE;
+    
         display & d;
         game_control & g_control;
         rtos::pool<int> timePool;
