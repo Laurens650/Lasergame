@@ -1,7 +1,7 @@
 #include "hwlib.hpp" 
 #include "rtos.hpp"
 
-class game_control : rtos::task<>{
+class game_control : public rtos::task<>{
     enum state_t {IDLE, TIMER, START_CONTROLS};
     private:
         state_t state = IDLE;
