@@ -1,7 +1,7 @@
 #include "hwlib.hpp" 
 #include "rtos.hpp"
 
-class timer_control : rtos::task<>{
+class timer_control : public rtos::task<>{
     enum state_t {IDLE, RUNNING};
     private:
         state_t state = IDLE;
