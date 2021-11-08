@@ -35,7 +35,8 @@ class Bieper: rtos::task(){
             beep( lsp, 20'000, 200'000, 990 );
         }
         
-        Bieper(hwlib::pin_out & lsp)
+        Bieper(hwlib::pin_out & lsp):
+            rtos::task(7, "Bieper"),
             lsp(lsp)
         {}
 };
