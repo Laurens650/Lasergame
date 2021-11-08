@@ -1,7 +1,7 @@
 #include "hwlib.hpp" 
 #include "rtos.hpp"
 
-class schiet_control : rtos::task<>{
+class schiet_control : public rtos::task<>{
     enum state_t {IDLE, READY_TO_SHOOT, COOLDOWN};
     private:
         state_t state = IDLE;
