@@ -20,7 +20,8 @@ class Fire_button : rtos::task<>{
         }
         
     public:
-        Fire_button(schiet_control & s_control)
+        Fire_button(schiet_control & s_control):
+            rtos::task(5, "Fire_button"),
             s_control(s_control)
         {}
 };
