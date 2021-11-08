@@ -1,0 +1,19 @@
+struct player_info{
+    int player_nr;
+    int dmg;
+};
+
+class Playerinfo{
+private:
+    player_info info;
+
+public:
+    player_info get(){
+        return info;
+    }
+
+    void set(int player_nr, int dmg){
+        info.player_nr = player_nr;
+        info.dmg = dmg;
+    }
+};
