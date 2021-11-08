@@ -6,7 +6,7 @@ struct hit_data {
     int hits;
 }
 
-class hit_control : rtos::task<>{
+class hit_control : public rtos::task<>{
     enum state_t {OFF, IDLE};
     private:
         state_t state = OFF;
