@@ -4,6 +4,8 @@
 class game_control : rtos::task<>{
     enum state_t {IDLE, TIMER, START_CONTROLS};
     private:
+        state_t state = IDLE;
+    
         schiet_control & s_control;
         timer_control & t_control;
         hit_control & h_control;
