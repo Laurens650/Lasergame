@@ -85,7 +85,8 @@ class hit_control : rtos::task<>{
         }
     
     
-    hit_control(display & d, Bieper & bieper, Game_control & g_control, Transfer_hit_control & transfer_control)
+    hit_control(display & d, Bieper & bieper, Game_control & g_control, Transfer_hit_control & transfer_control):
+        rtos::task(3, "hit_control"),
         d(d),
         bieper(bieper),
         g_control(g_control),
