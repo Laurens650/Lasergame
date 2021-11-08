@@ -10,17 +10,17 @@
 
 # source & header files in this project (main.cpp is automatically assumed)
 
-HEADERS +=
-SOURCES +=
+HEADERS :=
+SOURCES := send_ir_control.cpp
 
 
 # other places to look for files for this project
-SEARCH  := 
+SEARCH  := ../send_receive
 
 # set REATIVE to the next higher directory 
 # and defer to the Makefile.due there
 RELATIVE := $(RELATIVE)../
-include $(RELATIVE)Makefile.native
+include $(RELATIVE)Makefile.due
 # The contents of this makefile can be added at the end of any makefile to help extract its final parameters
 
 
