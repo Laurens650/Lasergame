@@ -1,7 +1,7 @@
 #include "hwlib.hpp"
 #include "rtos.hpp"
 
-class Fire_button : rtos::task<>{
+class Fire_button : public rtos::task<>{
     private:
         schiet_control & s_control;
         auto trigger = hwlib::target::pin_in(hwlib::target::pins::d23);
