@@ -1,7 +1,7 @@
 #include "hwlib.hpp" 
 #include "rtos.hpp" 
 
-class Bieper: rtos::task(){
+class Bieper: public rtos::task(){
     private:
         hwlib::pin_out & lsp;
         
