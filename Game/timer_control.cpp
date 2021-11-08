@@ -41,7 +41,8 @@ public:
             timeFlag.set();
         }
         
-        timer_control(display & d, game_control & g_control)
+        timer_control(display & d, game_control & g_control):
+            rtos::task(3, "timer_control"),
             d(d),
             g_control(g_control),
             timePool("timePool"),
