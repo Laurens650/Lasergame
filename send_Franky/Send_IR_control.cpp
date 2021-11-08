@@ -1,3 +1,4 @@
+#pragma once
 #include "hwlib.hpp"
 #include "rtos.hpp"
 
@@ -5,40 +6,41 @@ class Send_IR_control : public rtos::task<>{
 enum state_t {IDLE, WAIT_HIGH, WAIT_LOW, WAIT1600, WAIT800, SECOND_MSG};
 
 private:
-	auto trigger = hwlib::target::pin_in(hwlib::target::pins::d7);
-	auto ir = hwlib::target::pin_out(hwlib::target::pins::d8);
-	
-	
+//	auto trigger = hwlib::target::pin_in(hwlib::target::pins::d7);
+    hwlib::target::pin_out ir_pin;
+
 	state_t state = IDLE;
-	uint16_t msg = 0;
-	rtos::channel<uint16_t, 32> ms:timer timer;
+	uint16_t message = 0x00;
+	rtos::channel<uint16_t, 32> msgChannel;
+	rtos::timer timer;
 	
 	void main(){
 		int counter = 0;
 		uint16_t mask = 0;
 		bool bit = 0;
+
 		while (true){
 			switch(state){
 			case IDLE:
 				wait(msgChannel);
-				msg = msgChannel.read();
+				message = msgChannel.read();
 				counter = 0;
 				mask = 1 << 15;
 				state = WAIT_HIGH;
 				break;
 			case WAIT_HIGH:
-				ir.write(1); // Kijken hoe IR sender word aangeroepen
-				ir.flush();
+				ir_pin.write(1);
+				ir_pin.flush();
 				timer.set(9000)
 				wait(timer);
 				state = WAIT_LOW;
 				break;
 			case WAIT_LOW:
-				ir.write(0);
-				ir.flush();
+				ir_pin.write(0);
+				ir_pin.flush();
 				timer.set(4000)
 				wait(timer);
-				bit = msg & mask
+				bit = message & mask;
 				if(bit != 0){
 					ir_pin.write(1);
 					state = WAIT1600;
@@ -57,7 +59,7 @@ private:
 						state = SECOND_MSG;
 					}
 					else{
-						bit = msg & mask;
+						bit = message & mask;
 						if(bit != 0){
 							ir_pin.write(1);
 							state = WAIT1600;
@@ -82,7 +84,7 @@ private:
 						state = SECOND_MSG;
 					}
 					else{
-						bit = msg & mask;
+						bit = message & mask;
 						if(bit != 0){
 							ir_pin.write(1);
 							state = WAIT1600;
@@ -104,7 +106,7 @@ private:
 				mask = 1 << 15;
 				wait(timer);
 				if(counter < 2){
-					bit = msg & mask
+					bit = message & mask;
 					if(bit != 0){
 						ir_pin.write(1);
 						state = WAIT1600;
@@ -124,9 +126,13 @@ private:
 
 public:
 	Send_IR_control():
-	rtos::task(3, "Send_IR_Control"),
-	msgChannel  (this, "msgChannel")
+        rtos::task(3, "Send_IR_Control"),
+        msgChannel  (this, "msgChannel"),
+        timer(this, "timer"),
+        ir_pin(hwlib::target::pins::d8)
 	{}
 	
-	void send_msg(uint16_t msg){}
+	void send_msg(uint16_t msg){
+	    msgChannel.write(msg);
+	}
 };

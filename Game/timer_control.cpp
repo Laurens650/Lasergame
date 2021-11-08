@@ -1,12 +1,17 @@
-#include "hwlib.hpp" 
+#pragma once
+#include "hwlib.hpp"
 #include "rtos.hpp"
+#include "Game_control.cpp"
+
+class game_control;
 
 class timer_control : public rtos::task<>{
     enum state_t {IDLE, RUNNING};
     private:
         state_t state = IDLE;
     
-        display & d;
+//        display & d;                                          // GOTTA BE IMPLEMENTED
+
         game_control & g_control;
         rtos::pool<int> timePool;
         rtos::flag timeFlag;
@@ -22,7 +27,7 @@ class timer_control : public rtos::task<>{
                         state = RUNNING;
                         break;
                     case RUNNING:
-                        d.showtime(time);
+//                        d.showtime(time);                         // GOTTA BE IMPLEMENTED
                         Timer.set(1000000);
                         wait(Timer);
                         if(time==0){
@@ -35,18 +40,18 @@ class timer_control : public rtos::task<>{
             }
         }
         
-public:
-        void start(int gametime){
-            timePool.write(gametime);
-            timeFlag.set();
-        }
-        
-        timer_control(display & d, game_control & g_control):
+    public:
+        timer_control(game_control & g_control):                        // ADD AS PARAMETER FOR FULL PROGRAM: "display & d, "
             rtos::task(3, "timer_control"),
-            d(d),
+//            d(d),                                                     // GOTTA BE IMPLEMENTED
             g_control(g_control),
             timePool("timePool"),
             timeFlag(this, "timeFlag"),
             Timer(this, "Timer")
         {}
+
+        void start(int gametime){
+            timePool.write(gametime);
+            timeFlag.set();
+        }
 };

@@ -1,4 +1,5 @@
-#include "hwlib.hpp" 
+#pragma once
+#include "hwlib.hpp"
 #include "rtos.hpp" 
 
 class Bieper: public rtos::task(){

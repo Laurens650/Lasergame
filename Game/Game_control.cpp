@@ -1,6 +1,13 @@
-#include "hwlib.hpp" 
+#pragma once
+#include "hwlib.hpp"
 #include "rtos.hpp"
 
+#include "hit_control.cpp"
+#include "schiet_control.cpp"
+#include "timer_control.cpp"
+
+class hit_control;
+class Encode_control;
 class game_control : public rtos::task<>{
     enum state_t {IDLE, TIMER, START_CONTROLS};
     private:
@@ -9,7 +16,7 @@ class game_control : public rtos::task<>{
         schiet_control & s_control;
         timer_control & t_control;
         hit_control & h_control;
-        rtos::flag gamoverFlag;
+        rtos::flag gameoverFlag;
         rtos::flag startFlag;
         rtos::timer Timer;
         int countDown;
@@ -30,12 +37,11 @@ class game_control : public rtos::task<>{
                     case START_CONTROLS:
                         h_control.start();
                         s_control.start();
-                        t_control.start();
+                        t_control.start(gameTime);
                         
-                        wait(gamoverFlag);
+                        wait(gameoverFlag);
                         h_control.stop();
                         s_control.stop();
-                        t_control.stop();
                         break;
                 }
             }
@@ -43,7 +49,7 @@ class game_control : public rtos::task<>{
         
     public:
         void meldGameover(){
-            gamoverFlag.set();
+            gameoverFlag.set();
         }
         void start(int gametime, int countdown){
             startFlag.set();

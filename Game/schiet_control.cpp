@@ -1,14 +1,16 @@
-#include "hwlib.hpp" 
+#include "hwlib.hpp"
 #include "rtos.hpp"
+
+#include "../send_Franky/send.hpp"
+#include "Player_info.cpp"
+#include "Bieper.cpp"
 
 class schiet_control : public rtos::task<>{
     enum state_t {IDLE, READY_TO_SHOOT, COOLDOWN};
     private:
-        state_t state = IDLE;
-        
         hwlib::target::pin_out led;
-        Fire_button trigger;
-        Player_info& p_info;
+
+        Player_info & p_info;
         Encode_control& e_control;
         Bieper& bieper;
         rtos::flag StartFlag;
@@ -16,11 +18,13 @@ class schiet_control : public rtos::task<>{
         rtos::flag ButtonPressedFlag;
         rtos::flag ButtonReleasedFlag;
         rtos::timer Timer;
-        player_info shoot_struct = p_info.get();
+        player_struct shoot_struct = p_info.get();
         int dps = 10;
         int firerate = dps / shoot_struct.dmg;
 
-        
+        state_t state = IDLE;
+
+
         void main(){
             for(;;){
                 switch(state){
@@ -43,20 +47,22 @@ class schiet_control : public rtos::task<>{
                         break;
                     case COOLDOWN:
                         Timer.set(1000000 / firerate);
-                        auto evt = wait(StopFlag + Timer);
-                        if(evt==StopFlag){
+                        auto evt2 = wait(StopFlag + Timer);
+                        if(evt2==StopFlag){
                             state = IDLE;
-                        }else if(evt==Timer){
+                        }
+                        else {
                             state = READY_TO_SHOOT;
                         }
                         break;
                 }
             }
         }
-        
+
     public:
-        schiet_control(Encode_control & e_control, Bieper& bieper, hwlib::target::pin_out & led):
+        schiet_control(Encode_control & e_control, Bieper & bieper, Player_info & p, hwlib::target::pin_out & led):
             rtos::task(3, "schiet_control"),
+            p_info(p),
             e_control(e_control),
             bieper(bieper),
             StartFlag(this, "StartFlag"),
