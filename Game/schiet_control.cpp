@@ -56,6 +56,7 @@ class schiet_control : rtos::task<>{
         
     public:
         schiet_control(Encode_control & e_control, Bieper& bieper, hwlib::target::pin_out & led):
+            rtos::task(3, "schiet_control"),
             e_control(e_control),
             bieper(bieper),
             StartFlag(this, "StartFlag"),
