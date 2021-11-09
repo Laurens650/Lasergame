@@ -1,6 +1,6 @@
 #include "hwlib.hpp"
 #include "rtos.hpp"
-#include "send.hpp"
+#include "Send_IR_control.hpp"
 	
 void Send_IR_control::main(){
 	int counter = 0;

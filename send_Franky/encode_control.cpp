@@ -1,6 +1,7 @@
 #include "hwlib.hpp"
 #include "rtos.hpp"
 #include "send.hpp"
+#include "encode_control.hpp"
 
 void Encode_control::main(){
 	uint16_t msg = 0;
