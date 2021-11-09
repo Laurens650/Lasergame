@@ -11,7 +11,6 @@ class display : public rtos::task<>{
         hwlib::target::pin_oc sda;
         hwlib::i2c_bus_bit_banged_scl_sda bus;
         hwlib::glcd_oled oled;
-        oled.clear();
 
         state_t state = IDLE;
         int Lives;
@@ -19,7 +18,10 @@ class display : public rtos::task<>{
         int Time_min;
         int minutes;
         int display_seconds;
-        hwlib::font_default_8x8 font;
+        std::array<char, 3> live;
+        std::array<char, 2> min;
+        std::array<char, 2> sec;
+        hwlib::font_default_16x16 font;
         hwlib::terminal_from Display;
 
         std::array<char, 2> two_ints_to_char(int a){
@@ -66,26 +68,31 @@ class display : public rtos::task<>{
                     case IDLE:
                         auto evt = wait(livesFlag + timeFlag + commandFlag);
                         if(evt==livesFlag){
-                            std::array<char, 2> live = three_ints_to_char(Lives);
+                            live = three_ints_to_char(Lives);
                             Display
-                                << "\f" << "Lives:"
-                                << "\n" << live[0] << live[1] << live [2]
+                                << "\f" << min[0] << min[1] << ":" << sec[0] << sec[1]
+                                << "\n" 
+                                << "\n" 
+                                << "\n" << "HP:" << live[0] << live[1] << live [2]
                                 << hwlib::flush;
                         }
                         else if(evt==timeFlag){
-                            minutes = Seconds % 60;
-                            display_seconds = Seconds - (minutes * 60);
-                            std::array<char, 2> min = two_ints_to_char(minutes);
-                            std::array<char, 2> sec = two_ints_to_char(sec);
+                            display_seconds = Seconds % 60;
+                            minutes = (Seconds - display_seconds) / 60;
+                            min = two_ints_to_char(minutes);
+                            sec = two_ints_to_char(display_seconds);
                             Display 
-                                << "\f" << "Game time:"
-                                <<  "\n" << min[0] << min[1] << ":" << sec[0] << sec[1]
+                                << "\f" << min[0] << min[1] << ":" << sec[0] << sec[1]
+                                << "\n" 
+                                << "\n" 
+                                << "\n" << "HP:" << live[0] << live[1] << live [2]
                                 << hwlib::flush;
                         }
                         else if(evt==commandFlag){
                             std::array<char, 2> cmd = two_ints_to_char(Time_min);
                             Display
-                                << "\f" << "Time for game:"
+                                << "\f" << "Game"
+                                << "\n" << "time:"
                                 << "\n" << cmd[0] << cmd[1]
                                 << hwlib::flush;
                         }
@@ -109,7 +116,7 @@ class display : public rtos::task<>{
         }
         
         display():
-            rtos::task(6, "display"),
+            task(6, "display"),
             livesFlag(this, "livesFlag"),
             timeFlag(this, "timeFlag"),
             commandFlag(this, "commandFlag"),
