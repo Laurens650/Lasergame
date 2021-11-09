@@ -15,11 +15,11 @@ void Encode_control::main(){
 				auto event = wait(shootStructChannel + gameStructChannel);
 				if (event == shootStructChannel){
 					shoot_data = shootStructChannel.read();
-					player_nr = shoot_data.player_nr;
-					dmg = shoot_data.dmg;
-					msg = encode(player_nr, dmg);
-					sendControl.send_msg(msg);
-					state = IDLE;
+                    player_nr = shoot_data.player_nr;
+                    dmg = shoot_data.dmg;
+                    msg = encode(player_nr, dmg);
+                    sendControl.send_msg(msg);
+                    state = IDLE;
 					break;
 				}
 				else{
@@ -29,7 +29,7 @@ void Encode_control::main(){
 					msg = encode(0, gametime);
 					sendControl.send_msg(msg);
 					msg = encode(0, countdown);
-					sendControl.send_msg(msg);
+//					sendControl.send_msg(msg);
 					state = IDLE;
 					break;
 				}
@@ -38,7 +38,7 @@ void Encode_control::main(){
 }
 
 Encode_control::Encode_control(Send_IR_control & sendControl):
-	task(3, "encode_control"),
+	task(7, "encode_control"),
 	sendControl (sendControl),
 	shootStructChannel (this, "shootStructChannel"),
 	gameStructChannel (this, "gameStructChannel")
@@ -54,8 +54,8 @@ void Encode_control::initialize(game_struct game_info){
 uint16_t  Encode_control::encode(int player_nr, int data){
 	uint16_t msg = 0;
 	msg = 1 << 15;
-	msg |= player_nr <<10;
-	msg |= data << 5;
+	msg |= (player_nr <<10);
+	msg |= (data << 5);
 	msg |= generate_checksum(msg);
 	return msg;
 }
