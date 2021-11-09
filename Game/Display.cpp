@@ -66,17 +66,28 @@ class display : public rtos::task<>{
                     case IDLE:
                         auto evt = wait(livesFlag + timeFlag + commandFlag);
                         if(evt==livesFlag){
-                            minutes = Seconds % 60;
-                            display_seconds = Seconds - (minutes * 60);
-                            Display 
-                                << 
+                            std::array<char, 2> live = three_ints_to_char(Lives);
+                            Display
+                                << "\f" << "Lives:"
+                                << "\n" << live[0] << live[1] << live [2]
                                 << hwlib::flush;
                         }
                         else if(evt==timeFlag){
-                            
+                            minutes = Seconds % 60;
+                            display_seconds = Seconds - (minutes * 60);
+                            std::array<char, 2> min = two_ints_to_char(minutes);
+                            std::array<char, 2> sec = two_ints_to_char(sec);
+                            Display 
+                                << "\f" << "Game time:"
+                                <<  "\n" << min[0] << min[1] << ":" << sec[0] << sec[1]
+                                << hwlib::flush;
                         }
                         else if(evt==commandFlag){
-                            
+                            std::array<char, 2> cmd = two_ints_to_char(Time_min);
+                            Display
+                                << "\f" << "Time for game:"
+                                << "\n" << cmd[0] << cmd[1]
+                                << hwlib::flush;
                         }
                         oled.flush();
                 }
