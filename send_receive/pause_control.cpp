@@ -35,15 +35,15 @@ void Pause_control::main() {
 
                     hwlib::cout << "first msg" << hwlib::endl;
                 } else if (3000 < length && length < 4000) {
+                        msg = 0x01;
+                        counter = 0;
+                        first_msg = 0;
                     if (discard) {
                         discard = 0;
                         state = IDLE;
                         break;
 
                     } else {
-                        msg = 0x01;
-                        counter = 0;
-                        first_msg = 0;
                         state = MESSAGE;
                         hwlib::cout << "discard" << hwlib::endl;
                     }
