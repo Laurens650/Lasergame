@@ -48,7 +48,7 @@ void Parameter_control::main(){
 				}
 				break;
 			case REGISTER_FIREPOWER:
-                
+
 				firepower = buttonID; // dmg formule en char to int?
 				wait (startFlag);
 				g_control.start(game_struct.gametime, game_struct.countdown); // hoe komt ie hieraan?
