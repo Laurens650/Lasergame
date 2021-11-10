@@ -49,16 +49,19 @@ void Send_IR_control::main(){
 					bit = msg & mask;
 					if(bit != 0){
 						IR.write(1);
+						IR.flush();
 						state = WAIT1600;
 					}
 					else{
 						IR.write(1);
+						IR.flush();
 						state = WAIT800;
 					}
 				}
 			}
 			else{
 				IR.write(0);
+				IR.flush();
 				state = WAIT800;
 			}
 			break;
@@ -74,32 +77,37 @@ void Send_IR_control::main(){
 					bit = msg & mask;
 					if(bit != 0){
 						IR.write(1);
+                        IR.flush();
 						state = WAIT1600;
 					}
 					else{
 						IR.write(1);
+                        IR.flush();
 						state = WAIT800;
 					}
 				}
 			}
 			else{
 				IR.write(0);
+                IR.flush();
 				state = WAIT1600;
 			}
 			break;
 		case SECOND_MSG:
 			timer.set(4000);
-			counter ++;
-			mask = 1 << 15;
-			wait(timer);
-			if(counter < 2){
-				bit = msg & mask;
+                counter ++;
+                mask = 1 << 15;
+                wait(timer);
+                if(counter < 2){
+                    bit = msg & mask;
 				if(bit != 0){
 					IR.write(1);
+                    IR.flush();
 					state = WAIT1600;
 				}
 				else{
 					IR.write(1);
+                    IR.flush();
 					state = WAIT800;
 				}	
 			}
@@ -111,9 +119,8 @@ void Send_IR_control::main(){
 	}
 }
 
-Send_IR_control::Send_IR_control(hwlib::pin_in & trigger, hwlib::pin_out & IR):
-	task(3, "Send_IR_Control"),
-	trigger (trigger),
+Send_IR_control::Send_IR_control(hwlib::target::d2_36kHz & IR):
+	task(5, "Send_IR_Control"),
 	IR (IR),
 	msgChannel  (this, "msgChannel"),
 	timer (this, "timer")

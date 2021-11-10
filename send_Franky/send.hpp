@@ -24,7 +24,7 @@ struct game_struct {
     int countdown;
 };
 
-uint16_t generate_checksum(uint16_t msg) {
+static uint16_t generate_checksum(uint16_t msg) {
     uint16_t checksum_mask_first = 0x4000;
     uint16_t checksum_mask_second = 0x200;
 
@@ -38,6 +38,9 @@ uint16_t generate_checksum(uint16_t msg) {
 
         result <<= 1;
         result |= (masked_first ^ masked_second) ? 1 : 0;
+
+        checksum_mask_first >>= 1;
+        checksum_mask_second >>= 1;
     }
     return result;
 }

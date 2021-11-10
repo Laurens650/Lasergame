@@ -1,3 +1,6 @@
+#ifndef PLAYER_CONTROL_H
+#define PLAYER_CONTROL_H
+
 #include "../send_Franky/send.hpp"
 
 class Player_info{
@@ -14,3 +17,6 @@ public:
         info.dmg = dmg;
     }
 };
+
+
+#endif // PLAYER_CONTROL_H

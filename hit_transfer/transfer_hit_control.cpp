@@ -13,7 +13,7 @@ private:
 
     hit_control & h_control;
 //    USB_poort & poort;                            // HAS TO BE IMPLEMENTED
-    rtos::channel<std::array<hit_report, 1>> hitsChannel;
+    rtos::channel<std::array<hit_report, 1>, 1> hitsChannel;
     rtos::flag requestFlag;
 
     int countDown;
@@ -37,7 +37,7 @@ private:
 
 public:
     transfer_hit_control( hit_control & h_control):
-            rtos::task(3, "transfer_hit_control"),
+            task(3, "transfer_hit_control"),
             h_control(h_control),
             requestFlag(this, "requestFlag"),
             hitsChannel(this, "hitsChannel")

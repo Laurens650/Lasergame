@@ -1,69 +1,45 @@
-#pragma once
-#include "hwlib.hpp"
-#include "rtos.hpp"
+#include "Game_control.h"
 
-#include "hit_control.cpp"
-#include "schiet_control.cpp"
-#include "timer_control.cpp"
+void game_control::main() {
+    for (;;) {
+        switch (state) {
+            case IDLE:
+                wait(startFlag);
+                state = TIMER;
+                break;
+            case TIMER:
+                Timer.set(countDown * 1000000);
+                wait(Timer);
+                state = START_CONTROLS;
+                break;
+            case START_CONTROLS:
+                h_control.start();
+                s_control.start();
+                t_control.start(gameTime);
 
-class hit_control;
-class Encode_control;
-class game_control : public rtos::task<>{
-    enum state_t {IDLE, TIMER, START_CONTROLS};
-    private:
-        state_t state = IDLE;
-    
-        schiet_control & s_control;
-        timer_control & t_control;
-        hit_control & h_control;
-        rtos::flag gameoverFlag;
-        rtos::flag startFlag;
-        rtos::timer Timer;
-        int countDown;
-        int gameTime;
-        
-        void main(){
-            for(;;){
-                switch(state){
-                    case IDLE:
-                        wait(startFlag);
-                        state = TIMER;
-                        break;
-                    case TIMER:
-                        Timer.set(countDown * 1000000);
-                        wait(Timer);
-                        state = START_CONTROLS;
-                        break;
-                    case START_CONTROLS:
-                        h_control.start();
-                        s_control.start();
-                        t_control.start(gameTime);
-                        
-                        wait(gameoverFlag);
-                        h_control.stop();
-                        s_control.stop();
-                        break;
-                }
-            }
+                wait(gameoverFlag);
+                h_control.stop();
+                s_control.stop();
+                break;
         }
-        
-    public:
-        void meldGameover(){
-            gameoverFlag.set();
-        }
-        void start(int gametime, int countdown){
-            startFlag.set();
-            countDown = countdown;
-            gameTime = gametime;
-        }
-        
-        game_control(schiet_control & s_control, timer_control & t_control, hit_control & h_control):
-            rtos::task(4, "game_control"),
-            s_control(s_control),
-            t_control(t_control),
-            h_control(h_control),
-            gameoverFlag(this, "gameoverFlag"),
-            startFlag(this, "startFlag"),
-            Timer(this, "Timer")
-        {}
-};
+    }
+}
+void game_control::meldGameover(){
+        gameoverFlag.set();
+    }
+
+void game_control::start(int gametime, int countdown){
+    startFlag.set();
+    countDown = countdown;
+    gameTime = gametime;
+}
+
+game_control:game_control(schiet_control & s_control, timer_control & t_control, hit_control & h_control):
+    task(4, "game_control"),
+    s_control(s_control),
+    t_control(t_control),
+    h_control(h_control),
+    gameoverFlag(this, "gameoverFlag"),
+    startFlag(this, "startFlag"),
+    Timer(this, "Timer")
+{}

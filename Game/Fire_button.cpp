@@ -1,30 +1,26 @@
-#pragma once
-#include "hwlib.hpp"
-#include "rtos.hpp"
-#include "schiet_control.cpp"
+#include "Fire_button.h"
 
-class Fire_button : public rtos::task<>{
-    private:
-        schiet_control & s_control;
-        hwlib::target::pin_in trigger;
-        trigger.pullup_enable();
-        
-        void main(){
-            for(;;){
+void Fire_button::main(){
+    for(;;){
+        switch (state) {
+            case REFRESH:
+                timer.set(5000);
+                wait(timer);
                 trigger.refresh();
                 if(trigger.read()==0){
                     s_control.buttonPressed();
-                }else{
+                }
+                else{
                     s_control.buttonReleased();
                 }
-                hwlib::wait_ms(5);
-            }
+                break;
         }
-        
-    public:
-        Fire_button(schiet_control & s_control):
-            rtos::task(5, "Fire_button"),
-            trigger(hwlib::target::pins::d23),
-            s_control(s_control)
-        {}
-};
+    }
+}
+
+Fire_button::Fire_button(schiet_control & s_control, hwlib::pin_in & trigger):
+    task(5, "Fire_button"),
+    timer(this, "timer"),
+    s_control(s_control),
+    trigger(trigger)
+{}
