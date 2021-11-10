@@ -18,6 +18,7 @@ void timer_control::main(){
                 }else{
                     time--;
                 }
+                break;
         }
     }
 }
