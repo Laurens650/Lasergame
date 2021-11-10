@@ -3,10 +3,10 @@
 
 class Keypad_listener{
 public:
-    Keypad_listener():
-    {}
-    virtual void buttonPressed(char buttonID) = 0;
+    Keypad_listener();
+    virtual void buttonPressed(char buttonID);
 };
-
+ void f(){
+	 }
 
 #endif // KEYPAD_LISTENER_H

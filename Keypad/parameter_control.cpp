@@ -1,4 +1,5 @@
 #include "parameter_control.hpp"
+#include "Keypad.hpp"
 
 void Parameter_control::main(){
 	char buttonID;
@@ -6,7 +7,7 @@ void Parameter_control::main(){
 	int firepower = 0;
 	while(true){
 		switch(state){
-			case IDLE:
+			case IDLE:{
 				wait (buttonChannel);
 				buttonID = buttonChannel.read();
 				if(buttonID == 'A'){
@@ -16,7 +17,8 @@ void Parameter_control::main(){
 					state = IDLE;
 				}
 				break;
-			case WAIT_DATA:
+			}
+			case WAIT_DATA:{
 				wait (buttonChannel);
 				buttonID = buttonChannel.read();
 				if (buttonID >= '0' && buttonID <= '9'){
@@ -26,7 +28,8 @@ void Parameter_control::main(){
 					state = IDLE;
 				}
 				break;
-			case REGISTER_PLAYER_NR:
+			}
+			case REGISTER_PLAYER_NR:{
 				player_nr = (buttonID - '0');
 				wait (buttonChannel);
 				buttonID = buttonChannel.read();
@@ -37,7 +40,8 @@ void Parameter_control::main(){
 					state = IDLE;
 				}
 				break;
-			case DATA_WAIT:
+			}
+			case DATA_WAIT:{
 				wait (buttonChannel);
 				buttonID = buttonChannel.read();
 				if (buttonID >= '0' && buttonID <= '9'){
@@ -47,24 +51,30 @@ void Parameter_control::main(){
 					state = IDLE;
 				}
 				break;
-			case REGISTER_FIREPOWER:
-
+			}
+			case REGISTER_FIREPOWER:{
 				firepower = buttonID; // dmg formule en char to int?
-				wait (startFlag);
-				g_control.start(game_struct.gametime, game_struct.countdown); // hoe komt ie hieraan?
+				wait(gameChannel);
+				game_struct g_info = gameChannel.read();
+				g_control.start(g_info.gametime, g_info.countdown);
+				state = IDLE;
+				break;
+			}
 		}
 	}
 }
 	
-Parameter_control::Parameter_control(player_struct & p_info, Game_control & g_control):
+Parameter_control::Parameter_control(player_struct & p_info, Game_control & g_control, Keypad & keypad):
     task(8, "parameter_control"),
     p_info (p_info),
-    g_control (g_control),
+	g_control (g_control),
+	keypad (keypad),
     buttonChannel (this, "buttonChannel"),
     gameChannel (this, "gameChannel"),
-    startFlag (this, startFlag),
-    keypad.addKeypad_listener(this)
-{}
+    startFlag (this, "startFlag")
+	{
+		keypad.addKeypad_listener(this);
+	}
 
 void Parameter_control::buttonPressed(char buttonID) {
 	buttonChannel.write(buttonID);
