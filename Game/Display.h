@@ -1,11 +1,23 @@
 #ifndef DISPLAY_H
 #define DISPLAY_H
-///@file
 
 #include "hwlib.hpp"
 #include "rtos.hpp"
 
-/// the is the class that shows the results after every hit or when the timer is over.
+/// \brief
+/// display ADT
+/// \details
+/// 
+/// 
+/// 
+
+///@file
+
+/// \brief
+/// display ADT
+/// \details
+/// This class is an inheritance of rtos task.
+/// It contains the pins, rtos objects and methods to control the display
 class display : public rtos::task<>{
     enum state_t {IDLE};
 private:
@@ -34,15 +46,25 @@ private:
     void main();
 
 public:
-	/// \details
-	/// this function displayes the lives
+    /// \brief
+    /// display lives
+    /// \details
+    /// This method takes an integer as argument and shows the integer as lives on the display.
     void display_lives(int lives);
-	/// \details
-	/// this function show the time and splits the minutes and seconds from the seconds it get from the input.
+    /// \brief
+    /// display time
+    /// \details
+    /// This method takes an integer (seconds) as argument and show the time in minutes and seconds on the display.
     void showtime(int seconds);
-	/// \details
-	/// this function show the time provided by the game leader
+    /// \brief
+    /// display lives
+    /// \details
+    /// This method takes an integer provided by the ingame leader and shows the time
     void show_command(int time_min);
+    /// \brief
+	/// constructor of the display
+	/// \details
+	/// This constructor initializes the displays
     display();
 
 };

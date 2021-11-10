@@ -2,7 +2,10 @@
 #define KEYPAD_LISTENER_H
 ///@file
 
-/// this is the abstract class of a keypad listener
+/// \brief
+/// keypad listener
+/// \details
+/// This class act as a listener for the keypad
 class Keypad_listener{
 public:
     Keypad_listener():

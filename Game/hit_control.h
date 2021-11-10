@@ -1,6 +1,6 @@
 #ifndef HIT_CONTROL_H
 #define HIT_CONTROL_H
-///@file
+
 #include "hwlib.hpp"
 #include "rtos.hpp"
 
@@ -10,10 +10,17 @@
 #include "../hit_transfer/transfer_hit_control.cpp"
 #include "../send_Franky/send.hpp"
 
+///@file
+
 class transfer_hit_control;
 class game_control;
 
-/// this class calculates the lives of certain player sends it to the display. This also makes sure that a sound is played when the player is hit.
+/// \brief
+/// hit_control ADT
+/// \details
+/// This class is an inheritance of rtos task.
+/// It is responsible for calculating the remaining lives of the player.
+/// It is also responsible for making a sound will be played when the player is hit
 class hit_control : public rtos::task<>{
     enum state_t {OFF, IDLE};
 private:
@@ -36,16 +43,30 @@ private:
     void store_player_info(player_struct player);
     void main();
 public:
+    /// \brief
+	/// Costructor for hit control
+	/// \details
+	/// This constructor initializes the hit control with the bieper and game control.
     hit_control( Bieper & bieper, game_control & g_control):       //ADD PARAMETERS FOR FULL PROGRAM: "display & d, transfer_hit_control & transfer_control"
-
+    /// \brief
+	/// Sets the hit flag
+	/// \details
+	/// This method sets a flag when the player is hit.
     void get_hits();
+    /// \brief
+	/// Signals start
 	/// \details
-	/// this fuction sets the flag to start the game. 
+	/// This method sets a flag to start the game.
     void start();
+    /// \brief
+	/// Signals start
 	/// \details
-	/// this fuction sets the flag to stop the game. 
+	/// This method sets a flag to stop the game.
     void stop();
-	///this fuction detects if a player is hit and adds the dmg to your lives and sends it to your display.
+    /// \brief
+	/// Registers hits
+	/// \details
+	/// This method detect hit and is responsible for deducting the damage from a player's life.
     void hit_detected(player_struct player);
 
 };

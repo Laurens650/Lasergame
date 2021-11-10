@@ -1,16 +1,19 @@
 #ifndef TIMER_CONTROL_H
 #define TIMER_CONTROL_H
 
-///@file 
-
 #include "hwlib.hpp"
 #include "rtos.hpp"
 #include "Game_control.h"
 #include "Display.h"
 
-class game_control;
+///@file 
 
-/// This is a class for the timer_control. The timer_control is used for remaining time for the player while in game. This also states the gameover if the time reaches 0 seconds.
+class game_control;
+/// \brief
+/// timer_control ADT
+/// \details
+/// This class is an inheritance of rtos task.
+/// It is responsible for keeping track of and showuing the remaining time and signals a stop when the timer has run out.
 class timer_control : public rtos::task<>{
     enum state_t {IDLE, RUNNING};
 private:
@@ -26,10 +29,15 @@ private:
     void main();
 
 public:
-
-    timer_control(display & d, game_control & g_control);
+    /// \brief
+	/// Costructor for timer control
 	/// \details
-	/// this fuction sets the flag to start the game. 
+	/// This constructor initializes the timer control with a display and game control
+    timer_control(display & d, game_control & g_control);
+    /// \brief
+	/// Signals start
+	/// \details
+	/// This method signals the other controls when the game is starting.
     void start(int gametime);
 };
 

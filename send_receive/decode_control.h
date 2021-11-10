@@ -1,12 +1,18 @@
 #ifndef DECODE_CONTROL_HPP
 #define DECODE_CONTROL_HPP
-///@file
+
 #include "hwlib.hpp"
 #include "rtos.hpp"
 #include "../send_Franky/send.hpp"
 //#include "../Game/hit_control.cpp"
 
-///this class decodes the msg
+///@file
+
+/// \brief
+/// Decode_control ADT
+/// \details
+/// This class is an inheritance of rtos task.
+/// It is responsible for decoding incoming messages.
 class Decode_control : public rtos::task<>{
     enum state_t {WAIT_FOR_MSG};
 
@@ -19,9 +25,15 @@ private:
     void main();
 
 public:
-    Decode_control();    // NEED TO ADD PARAMETER CONTROL AND HIT_CONTROL: hit_control & h_control
+    /// \brief
+	/// Costructor for Decode_control
 	/// \details
-	///this fuction decodes the msg.
+	/// This constructor initializes the decode control
+    Decode_control();    // NEED TO ADD PARAMETER CONTROL AND HIT_CONTROL: hit_control & h_control
+    /// \brief
+	/// Decode message
+	/// \details
+	/// This method writes the message that is to be decoded to the Message Received Channel.
     void decode_msg(uint16_t msg);
 };
 

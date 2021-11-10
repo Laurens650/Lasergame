@@ -1,33 +1,50 @@
 #ifndef SEND_HPP
 #define SEND_HPP
-///@file
-#include "hwlib.hpp" 
-#include "rtos.hpp" 
 
-/// This is the struct taht saves the player_nr and the dmg
+#include "hwlib.hpp" 
+#include "rtos.hpp"
+
+///@file
+/// \brief
+/// player data struct
+/// \details
+/// struct containing the player number and damage.
 struct player_struct {
     int player_nr;
     int dmg;
 };
-/// This struct stores the times your hit by which player
+
+/// \brief
+/// hit data struct
+/// \details
+/// struct containing the total hits and by which player number.
 struct hit_data {
     int player_nr;
     int hits;
 };
 
-/// This struct makes the array of everyone who hit you 
+/// \brief
+/// hit report struct
+/// \details
+/// struct containing the player numbers of players hit by.
 struct hit_report {
     std::array<hit_data, 31> data;
     int valid;
 };
 
-/// this struct saves rthe game time and the countdown
+/// \brief
+/// game struct
+/// \details
+/// struct containing the gametime and countdown.
 struct game_struct {
     int gametime;
     int countdown;
 };
 
-/// this makes the checksum to verify the encoded msg
+/// \brief
+/// Verifies message
+/// \details
+/// This function returns a generated checksum to verify if a message has been received correctly.
 static uint16_t generate_checksum(uint16_t msg) {
     uint16_t checksum_mask_first = 0x4000;
     uint16_t checksum_mask_second = 0x200;

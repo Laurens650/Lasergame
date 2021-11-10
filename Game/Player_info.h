@@ -1,20 +1,31 @@
 #ifndef PLAYER_CONTROL_H
 #define PLAYER_CONTROL_H
-///@file
-
 
 #include "../send_Franky/send.hpp"
-///this class sets the player_nr and the dmg in the constructor
+
+///@file
+
+/// \brief
+/// Player_info ADT
+/// \details
+/// This class sets and returns the player info
+
 class Player_info{
 private:
     player_struct info;
 
 public:
+    /// \brief
+	/// returns player info
+	/// \details
+	/// This method return the player info which contains the player number and damage.
     player_struct get(){
         return info;
     }
+    /// \brief
+	/// sets player info
 	/// \details
-	/// this set fuction sets the player_nr and the dmg in the struct.
+	/// This method set the player info which contains the player number and damage.
     void set(int player_nr, int dmg){
         info.player_nr = player_nr;
         info.dmg = dmg;
