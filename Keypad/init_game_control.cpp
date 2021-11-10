@@ -1,6 +1,4 @@
-#include "hwlib.hpp"
-#include "rtos.hpp"
-#include "keypad_listener.hpp"
+#include "init_game_control.hpp"
 
 void Init_game_control::main(){
 	int gametime = 0;
