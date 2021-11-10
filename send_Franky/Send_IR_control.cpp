@@ -94,7 +94,7 @@ void Send_IR_control::main(){
 			}
 			break;
 		case SECOND_MSG:
-			timer.set(4000);
+			timer.set(3000);
                 counter ++;
                 mask = 1 << 15;
                 wait(timer);
