@@ -13,7 +13,7 @@ void Keypad::main(){
 }
 
 Keypad::Keypad(hwlib::keypad< 16 > & keypad):
-    task(this, "keypad"),
+    task(16, "keypad"),
     keypad (keypad),
     timer (this, "timer")
 {}

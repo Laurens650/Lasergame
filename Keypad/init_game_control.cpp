@@ -62,7 +62,7 @@ void Init_game_control::main(){
 }
 	
 Init_game_control::Init_game_control(display & d, Encode_control & e_control, Keypad & keypad):
-    task(this, "init_game_control"),
+    task(9, "init_game_control"),
     d (d),
     e_control (e_control),
     ButtonChannel (this, "ButtonChannel"),
