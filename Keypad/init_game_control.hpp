@@ -1,6 +1,9 @@
 #include "hwlib.hpp"
 #include "rtos.hpp"
 #include "keypad_listener.hpp"
+#include "Keypad.hpp"
+#include "../send_Franky/encode_control.hpp"
+#include "../Game/Display.h"
 
 class Init_game_control : public rtos::task<> : public Keypad_listener{
 enum state_t {IDLE, WAIT_DATA, SELECT_TIME, SEND_IR_MESSAGE};

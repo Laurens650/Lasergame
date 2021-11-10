@@ -6,7 +6,7 @@ void Init_game_control::main(){
 	int gametime = 0;
 	int start_countdown = 0;
 	int remaining_time = 0;
-	char buttonID '0';
+	char buttonID;
 	game_struct g_struct;
 	while (true){
 		switch(state){
@@ -62,10 +62,11 @@ void Init_game_control::main(){
 }
 	
 Init_game_control::Init_game_control(display & d, Encode_control & e_control, Keypad & keypad):
-d (d),
-e_control (e_control),
-ButtonChannel (this, "ButtonChannel"),
-keypad.addKeypad_listener(this)
+    task(this, "init_game_control"),
+    d (d),
+    e_control (e_control),
+    ButtonChannel (this, "ButtonChannel"),
+    keypad.addKeypad_listener(this)
 {}
 
 void Init_game_control::buttonPressed(char buttonID) override {

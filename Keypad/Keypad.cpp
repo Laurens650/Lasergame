@@ -1,7 +1,4 @@
-#include "hwlib.hpp"
-#include "rtos.hpp"
-#include <array>
-#include "keypad_listener.hpp"
+#include "Keypad.hpp"
 
 void Keypad::main(){
     while(true){
@@ -16,11 +13,12 @@ void Keypad::main(){
 }
 
 Keypad::Keypad(hwlib::keypad< 16 > & keypad):
-keypad (keypad),
-timer (this, "timer")
+    task(this, "keypad"),
+    keypad (keypad),
+    timer (this, "timer")
 {}
 
-Keypad::addKeypad_listener(Keypad_listener* listener){
+void Keypad::addKeypad_listener(Keypad_listener *listener) {
     if (used < array_size){
         listeners[used] = listener;
         used += 1;
