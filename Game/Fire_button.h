@@ -1,10 +1,12 @@
 #ifndef FIRE_BUTTON_H
 #define FIRE_BUTTON_H
+///@file
 
 #include "hwlib.hpp"
 #include "rtos.hpp"
 #include "schiet_control.h"
 
+///this class is the input button for when the trigger is pulled. 
 class Fire_button : public rtos::task<>{
     enum state_t {REFRESH};
 private:

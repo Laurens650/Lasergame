@@ -13,7 +13,7 @@ TARGET            ?= arduino_due
 CONSOLE_BAUDRATE  ?= 2400
 STACK_SIZE        ?= 81920
 HEAP              ?= BMPTK
-SERIAL_PORT       := COM5
+SERIAL_PORT       := COM3
 
 # add the rtos
 RTOS              ?= $(RELATIVE)/../rtos

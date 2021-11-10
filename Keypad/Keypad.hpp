@@ -5,6 +5,7 @@
 #include "rtos.hpp"
 #include "keypad_listener.hpp"
 
+/// this class makes sure the keypad works
 class Keypad : public rtos::task<>{
     enum state_t {WAIT};
 
@@ -19,6 +20,8 @@ class Keypad : public rtos::task<>{
 
     public:
         Keypad(hwlib::keypad< 16 > & keypad);
+		/// \details
+		/// this function adds the keypad_listener
         void addKeypad_listener(Keypad_listener *listener);
 };
 

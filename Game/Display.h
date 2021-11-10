@@ -1,9 +1,11 @@
 #ifndef DISPLAY_H
 #define DISPLAY_H
+///@file
 
 #include "hwlib.hpp"
 #include "rtos.hpp"
 
+/// the is the class that shows the results after every hit or when the timer is over.
 class display : public rtos::task<>{
     enum state_t {IDLE};
 private:
@@ -32,9 +34,14 @@ private:
     void main();
 
 public:
-
+	/// \details
+	/// this function displayes the lives
     void display_lives(int lives);
+	/// \details
+	/// this function show the time and splits the minutes and seconds from the seconds it get from the input.
     void showtime(int seconds);
+	/// \details
+	/// this function show the time provided by the game leader
     void show_command(int time_min);
     display();
 

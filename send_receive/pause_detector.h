@@ -1,10 +1,11 @@
 #ifndef PAUSE_DETECTOR_H
 #define PAUSE_DETECTOR_H
-
+///@file
 #include "hwlib.hpp"
 #include "rtos.hpp"
 #include "pause_control.h"
 
+/// this class checks if there are any pauses.
 class Pause_detector : public rtos::task<> {
     enum state_t {IDLE, WAIT};
 private:
