@@ -3,11 +3,15 @@
 void Keypad::main(){
     while(true){
         switch (state){
-            case WAIT:
-                auto c = kbd.getc();
+            case WAIT:{
+                auto c = keypad.getc();
+				for (int i = 0 ; i < array_size; i++){
+					listeners[i]->buttonPressed(c);
+				}
                 timer.set(60000);
                 wait(timer);
                 state = WAIT;
+			}
         }
     }
 }

@@ -8,21 +8,21 @@
 #include "../send_Franky/send.hpp"
 #include "Keypad.hpp"
 
-class Parameter_control : public rtos::task<> : public Keypad_listener{
-enum state_t {IDLE, WAIT_DATA, REGISTER_PLAYER_NR, DATA_WAIT, REGISTER_FIREPOWER}
+class Parameter_control : public rtos::task<> , public Keypad_listener{
+enum state_t {IDLE, WAIT_DATA, REGISTER_PLAYER_NR, DATA_WAIT, REGISTER_FIREPOWER};
 
 private:
 	player_struct & p_info;
 	Game_control & g_control;
     Keypad & keypad;
-	state_t state = IDLE;
 	rtos::channel<char, 100> buttonChannel;
 	rtos::channel<game_struct, 1> gameChannel;
 	rtos::flag startFlag;
+	state_t state = IDLE;
 	void main();
 	
 public:
-	Parameter_control(player_struct & p_info, Game_control & g_control);
+	Parameter_control(player_struct & p_info, Game_control & g_control, Keypad & keypad);
 	void buttonPressed(char buttonID) override;
 	void start(game_struct g_struct);
 	

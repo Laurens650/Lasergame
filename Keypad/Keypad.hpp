@@ -1,5 +1,5 @@
-#ifndef KEYPAD_H
-#define KEYPAD_H
+#ifndef KEYPAD_HPP
+#define KEYPAD_HPP
 
 #include "hwlib.hpp"
 #include "rtos.hpp"
@@ -9,7 +9,7 @@ class Keypad : public rtos::task<>{
     enum state_t {WAIT};
 
     private:
-        const int array_size = 2;
+        static const int array_size = 2;
         int used = 0;
         state_t state = WAIT;
         hwlib::keypad< 16 > & keypad;
@@ -22,4 +22,4 @@ class Keypad : public rtos::task<>{
         void addKeypad_listener(Keypad_listener *listener);
 };
 
-#define //KEYPAD_H
+#endif //KEYPAD_H
