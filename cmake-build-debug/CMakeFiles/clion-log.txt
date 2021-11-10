@@ -1,5 +1,13 @@
-"C:\Program Files\JetBrains\CLion 2021.1.1\bin\cmake\win\bin\cmake.exe" -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - MinGW Makefiles" C:\Lasergame\Lasergame
--- Target loaded: Lasergame_main
--- Configuring done
--- Generating done
--- Build files have been written to: C:/Lasergame/Lasergame/cmake-build-debug
+"D:\CLion 2021.2.3\bin\cmake\win\bin\cmake.exe" -DCMAKE_BUILD_TYPE=Debug -DCMAKE_DEPENDS_USE_COMPILER=FALSE -G "CodeBlocks - MinGW Makefiles" D:\TI_SOFTWARE\Lasergame
+CMake Error at CMakeLists.txt:5 (include):
+  include could not find requested file:
+
+    \HCT.cmake
+
+
+CMake Error at CMakeLists.txt:7 (hct_autoload):
+  Unknown CMake command "hct_autoload".
+
+
+-- Configuring incomplete, errors occurred!
+See also "D:/TI_SOFTWARE/Lasergame/cmake-build-debug/CMakeFiles/CMakeOutput.log".

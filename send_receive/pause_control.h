@@ -6,6 +6,13 @@
 //#include "../send_Franky/send.hpp"
 #include "decode_control.h"
 
+///@file
+
+/// \brief
+/// Pause_control ADT
+/// \details
+/// This class is an inheritance of rtos task.
+/// It is responsible for processing the pauses that are detected.
 class Pause_control : public rtos::task<>{
     enum state_t {IDLE, MESSAGE};
 private:
@@ -16,7 +23,15 @@ private:
     void main();
 
 public:
+    /// \brief
+	/// Costructor for Pause_control
+	/// \details
+	/// This constructor initializes the Pausecontrol with the Decode_control.
     Pause_control(Decode_control & d_control);
+	/// \brief
+	/// stores pause lengths
+	/// \details
+	/// This method writes the length of the detected pauses to the pause channel
     void pause_detected(int length);
 };
 

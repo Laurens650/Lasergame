@@ -1,11 +1,12 @@
 #pragma once
 #include "hwlib.hpp"
 #include "rtos.hpp"
-
+///@file
 #include "../send_Franky/send.hpp"
 #include "../Game/hit_control.cpp"
 
 class hit_control;
+/// this class transfers the totals hit from the player to the pc
 class transfer_hit_control : public rtos::task<>{
     enum state_t {IDLE, read_write};
 private:
@@ -42,11 +43,13 @@ public:
             requestFlag(this, "requestFlag"),
             hitsChannel(this, "hitsChannel")
     {}
-
+	/// \details
+	/// this fuction requests the Flag for the write function
     void write_request(){
         requestFlag.set();
     }
-
+	/// \details 
+	///his function pulls the hits from the arduino
     void pull_hits(hit_report hits){
         hitsChannel.write(hits)
     }

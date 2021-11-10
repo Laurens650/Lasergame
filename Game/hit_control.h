@@ -10,8 +10,17 @@
 #include "../hit_transfer/transfer_hit_control.cpp"
 #include "../send_Franky/send.hpp"
 
+///@file
+
 class transfer_hit_control;
 class game_control;
+
+/// \brief
+/// hit_control ADT
+/// \details
+/// This class is an inheritance of rtos task.
+/// It is responsible for calculating the remaining lives of the player.
+/// It is also responsible for making a sound will be played when the player is hit
 class hit_control : public rtos::task<>{
     enum state_t {OFF, IDLE};
 private:
@@ -34,11 +43,30 @@ private:
     void store_player_info(player_struct player);
     void main();
 public:
+    /// \brief
+	/// Costructor for hit control
+	/// \details
+	/// This constructor initializes the hit control with the bieper and game control.
     hit_control( Bieper & bieper, game_control & g_control):       //ADD PARAMETERS FOR FULL PROGRAM: "display & d, transfer_hit_control & transfer_control"
-
+    /// \brief
+	/// Sets the hit flag
+	/// \details
+	/// This method sets a flag when the player is hit.
     void get_hits();
+    /// \brief
+	/// Signals start
+	/// \details
+	/// This method sets a flag to start the game.
     void start();
+    /// \brief
+	/// Signals start
+	/// \details
+	/// This method sets a flag to stop the game.
     void stop();
+    /// \brief
+	/// Registers hits
+	/// \details
+	/// This method detect hit and is responsible for deducting the damage from a player's life.
     void hit_detected(player_struct player);
 
 };
