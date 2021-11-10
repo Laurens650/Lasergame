@@ -57,7 +57,7 @@ void Parameter_control::main(){
 }
 	
 Parameter_control::Parameter_control(player_struct & p_info, Game_control & g_control):
-    task(this, "parameter_control"),
+    task(8, "parameter_control"),
     p_info (p_info),
     g_control (g_control),
     buttonChannel (this, "buttonChannel"),
