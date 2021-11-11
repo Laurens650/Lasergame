@@ -11,3 +11,4 @@ compressed.txt
 *.mk
 *.exe
 bmptk_*_stack.c
+*.tex
