@@ -1,4 +1,5 @@
 #include "hit_control.h"
+#include "Game_control.h"
 
 void hit_control::store_player_info(player_struct player){
     bool found = false;
@@ -19,41 +20,53 @@ void hit_control::store_player_info(player_struct player){
 void hit_control::main(){
     for(;;){
         switch(state){
-            case OFF:
+            case OFF: {
                 auto evt = wait(get_hitsFlag + startFlag);
-                if(evt==startFlag){
+                if (evt == startFlag) {
                     state = IDLE;
-                }else if(evt==get_hitsFlag){
-                    transfer_control.pull_hits(hits);                      // moet nog implemented worden
+                } else {
+//                    transfer_control.pull_hits(hits);                      // moet nog implemented worden
                 }
                 break;
-            case IDLE:
-                wait(hitChannel);
-                player_info = hitChannel.read()
-                dmg = player_struct.dmg;
-                bieper.play_hit();
-                lives -= dmg;
-                store_player_info(player_info);
-                d.display_score(lives);
-                if(lives <= 0){
-                    g_control.meldGameover();
+            }
+            case IDLE: {
+                auto evt = wait(hitChannel + stopFlag);
+                if(evt == hitChannel) {
+                    logger.logText("hit received");
+                    player_info = hitChannel.read();
+                    dmg = player_info.dmg;
+                    bieper.play_hit();
+                    lives -= dmg;
+                    logger.logInt(lives);
+                    store_player_info(player_info);
+                    if (lives <= 0) {
+                        d.display_lives(0);
+                        g_control->meldGameover();
+                        state = OFF;
+                    }
+                    else{
+                        d.display_lives(lives);
+                    }
+                }
+                else{
                     state = OFF;
                 }
                 break;
+            }
         }
     }
 }
 
-hit_control::hit_control( Bieper & bieper, game_control & g_control, transfer_hit_control & transfer_control ):
-        task(3, "hit_control"),
-        transfer_control(transfer_control),
-        bieper(bieper),
-        g_control(g_control),
+hit_control::hit_control( Bieper & bieper, display & d, Logger &logger):            // ADD FOR FULL PROGRAM: "transfer_hit_control & transfer_control "
+        task(10, "hit_control"),
         d(d),
+        bieper(bieper),
+//        transfer_control(transfer_control),
         hitChannel(this, "hitChannel"),
         startFlag(this, "startFlag"),
         stopFlag(this, "stopFlag"),
-        get_hitsFlag(this, "get_hitsFlag")
+        get_hitsFlag(this, "get_hitsFlag"),
+        logger(logger)
 {}
 
 void hit_control::get_hits() {
@@ -67,4 +80,8 @@ void hit_control::stop(){
 }
 void hit_control::hit_detected(player_struct player){
     hitChannel.write(player);
+}
+
+void hit_control::set_game_p(game_control *game){
+    g_control = game;
 }

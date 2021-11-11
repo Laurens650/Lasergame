@@ -1,32 +1,34 @@
 #include "timer_control.h"
+#include "Game_control.h"
 
 void timer_control::main(){
     for(;;){
         switch(state){
-            case IDLE:
+            case IDLE: {
                 wait(timeFlag);
                 time = timePool.read();
                 state = RUNNING;
                 break;
-            case RUNNING:
+            }
+            case RUNNING: {
                 d.showtime(time);
                 Timer.set(1000000);
                 wait(Timer);
-                if(time==0){
-                    g_control.meldGameover();
+                if (time == 0) {
+                    g_control->meldGameover();
                     state = IDLE;
-                }else{
+                } else {
                     time--;
                 }
                 break;
+            }
         }
     }
 }
 
-timer_control::timer_control(display & d, game_control & g_control):                        // ADD AS PARAMETER FOR FULL PROGRAM: " "
-    task(3, "timer_control"),
+timer_control::timer_control(display & d):                        // ADD AS PARAMETER FOR FULL PROGRAM: " "
+    task(12, "timer_control"),
     d(d),
-    g_control(g_control),
     timePool("timePool"),
     timeFlag(this, "timeFlag"),
     Timer(this, "Timer")
@@ -35,4 +37,8 @@ timer_control::timer_control(display & d, game_control & g_control):            
 void timer_control::start(int gametime){
     timePool.write(gametime);
     timeFlag.set();
+}
+
+void timer_control::set_game_p(game_control *game){
+    g_control = game;
 }
