@@ -1,7 +1,6 @@
 #ifndef GAME_CONTROL_H
 #define GAME_CONTROL_H
 
-
 #include "hwlib.hpp"
 #include "rtos.hpp"
 #include "hit_control.h"
@@ -36,22 +35,23 @@ private:
     void main();
 
 public:
+
     /// \brief
-	/// Signals gameover
-	/// \details
-	/// This method signals the other controls when the game is over.
+    /// Signals gameover
+    /// \details
+    /// This method signals the other controls when the game is over.
     void meldGameover();
 
     /// \brief
-	/// Signals start
-	/// \details
-	/// This method signals the other controls when the game is starting.
+    /// Signals start
+    /// \details
+    /// This method signals the other controls when the game is starting.
     void start(int gametime, int countdown);
 
     /// \brief
-	/// Costructor for Game_control
-	/// \details
-	/// This constructor initializes the game control with the schiet_control, timer_control and hit_control.
+    /// Costructor for Game_control
+    /// \details
+    /// This constructor initializes the game control with the schiet_control, timer_control and hit_control.
     game_control(schiet_control & s_control, timer_control & t_control, hit_control & h_control);
 
 };

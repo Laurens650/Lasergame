@@ -1,10 +1,11 @@
 #include "pause_detector.h"
 
-Pause_detector::Pause_detector(Pause_control & p_control, hwlib::pin_in & ir_receiver):
+Pause_detector::Pause_detector(Pause_control & p_control, hwlib::pin_in & ir_receiver, Logger & log):
         task(1, "pause_detector"),
         timer(this, "timer"),
         p_control (p_control),
-        ir_receiver (ir_receiver)
+        ir_receiver (ir_receiver),
+        logger(log)
 {}
 
 void Pause_detector::main(){

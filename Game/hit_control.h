@@ -4,15 +4,15 @@
 #include "hwlib.hpp"
 #include "rtos.hpp"
 
-#include "Bieper.cpp"
-#include "Game_control.h"
+#include "Bieper.h"
 #include "Display.h"
-#include "../hit_transfer/transfer_hit_control.cpp"
+//#include "../hit_transfer/transfer_hit_control.cpp"
 #include "../send_Franky/send.hpp"
+#include "../send_receive/logger2.hpp"
 
 ///@file
 
-class transfer_hit_control;
+//class transfer_hit_control;
 class game_control;
 
 /// \brief
@@ -30,44 +30,54 @@ private:
 //    transfer_hit_control & transfer_control;       // moet nog implemented worden
 
     Bieper & bieper;
-    game_control & g_control;
+    game_control *g_control;
     player_struct player_info;
     hit_report hits;
-    rtos::channel<char, 2048> hitChannel;
+    rtos::channel<player_struct, 2> hitChannel;
     rtos::flag startFlag;
     rtos::flag stopFlag;
     rtos::flag get_hitsFlag;
+
+    Logger & logger;
+
     int lives = 200;
     int dmg;
 
     void store_player_info(player_struct player);
     void main();
 public:
+
     /// \brief
-	/// Costructor for hit control
-	/// \details
-	/// This constructor initializes the hit control with the bieper and game control.
-    hit_control( Bieper & bieper, game_control & g_control):       //ADD PARAMETERS FOR FULL PROGRAM: "display & d, transfer_hit_control & transfer_control"
+    /// Costructor for hit control
+    /// \details
+    /// This constructor initializes the hit control with the bieper and game control.
+    hit_control( Bieper & bieper, display & d, Logger &logger);       //ADD PARAMETERS FOR FULL PROGRAM: "transfer_hit_control & transfer_control"
+
     /// \brief
-	/// Sets the hit flag
-	/// \details
-	/// This method sets a flag when the player is hit.
+    /// Sets the hit flag
+    /// \details
+    /// This method sets a flag when the player is hit.
     void get_hits();
+
     /// \brief
-	/// Signals start
-	/// \details
-	/// This method sets a flag to start the game.
+    /// Signals start
+    /// \details
+    /// This method sets a flag to start the game.
     void start();
+
     /// \brief
-	/// Signals start
-	/// \details
-	/// This method sets a flag to stop the game.
+    /// Signals start
+    /// \details
+    /// This method sets a flag to stop the game.
     void stop();
+
     /// \brief
-	/// Registers hits
-	/// \details
-	/// This method detect hit and is responsible for deducting the damage from a player's life.
+    /// Registers hits
+    /// \details
+    /// This method detect hit and is responsible for deducting the damage from a player's life.
     void hit_detected(player_struct player);
+
+    void set_game_p(game_control *game);
 
 };
 

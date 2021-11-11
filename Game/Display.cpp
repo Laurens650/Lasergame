@@ -41,38 +41,37 @@ std::array<char, 3> display::three_ints_to_char(int a){
 void display::main(){
     for(;;){
         switch(state){
-            case IDLE:
+            case IDLE: {
                 auto evt = wait(livesFlag + timeFlag + commandFlag);
-                if(evt==livesFlag){
+                if (evt == livesFlag) {
                     live = three_ints_to_char(Lives);
                     Display
-                        << "\f" << min[0] << min[1] << ":" << sec[0] << sec[1]
-                        << "\n"
-                        << "\n"
-                        << "\n" << "HP:" << live[0] << live[1] << live [2]
-                        << hwlib::flush;
-                }
-                else if(evt==timeFlag){
+                            << "\f" << min[0] << min[1] << ":" << sec[0] << sec[1]
+                            << "\n"
+                            << "\n"
+                            << "\n" << "HP:" << live[0] << live[1] << live[2]
+                            << hwlib::flush;
+                } else if (evt == timeFlag) {
                     display_seconds = Seconds % 60;
                     minutes = (Seconds - display_seconds) / 60;
                     min = two_ints_to_char(minutes);
                     sec = two_ints_to_char(display_seconds);
                     Display
-                        << "\f" << min[0] << min[1] << ":" << sec[0] << sec[1]
-                        << "\n"
-                        << "\n"
-                        << "\n" << "HP:" << live[0] << live[1] << live [2]
-                        << hwlib::flush;
-                }
-                else if(evt==commandFlag){
+                            << "\f" << min[0] << min[1] << ":" << sec[0] << sec[1]
+                            << "\n"
+                            << "\n"
+                            << "\n" << "HP:" << live[0] << live[1] << live[2]
+                            << hwlib::flush;
+                } else if (evt == commandFlag) {
                     std::array<char, 2> cmd = two_ints_to_char(Time_min);
                     Display
-                        << "\f" << "Game"
-                        << "\n" << "time:"
-                        << "\n" << cmd[0] << cmd[1]
-                        << hwlib::flush;
+                            << "\f" << "Game"
+                            << "\n" << "time:"
+                            << "\n" << cmd[0] << cmd[1]
+                            << hwlib::flush;
                 }
                 oled.flush();
+            }
         }
     }
 }
@@ -90,7 +89,7 @@ void display::show_command(int time_min){
 }
 
 display::display():
-    task(6, "display"),
+    task(19, "display"),
     livesFlag(this, "livesFlag"),
     timeFlag(this, "timeFlag"),
     commandFlag(this, "commandFlag"),

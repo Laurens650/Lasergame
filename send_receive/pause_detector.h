@@ -4,6 +4,7 @@
 #include "hwlib.hpp"
 #include "rtos.hpp"
 #include "pause_control.h"
+#include "logger2.hpp"
 
 ///@file
 
@@ -22,14 +23,17 @@ private:
     int length = 0;
     bool signal;
 
+    Logger &logger;
+
     void main();
 
 public:
+
     /// \brief
-	/// Costructor for Pause_detector
-	/// \details
-	/// This constructor initializes the Pause detector with the Pause_control and IR receiver pin.
-    Pause_detector(Pause_control & p_control, hwlib::pin_in & ir_receiver);
+    /// Costructor for Pause_detector
+    /// \details
+    /// This constructor initializes the Pause detector with the Pause_control and IR receiver pin.
+    Pause_detector(Pause_control & p_control, hwlib::pin_in & ir_receiver, Logger & log);
 
 };
 

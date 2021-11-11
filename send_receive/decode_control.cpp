@@ -1,13 +1,16 @@
 #include "decode_control.h"
 
-Decode_control::Decode_control():   // ADD hit_control &h_control AS PARAMETER
+Decode_control::Decode_control(Logger & log, hit_control & h_control, Parameter_control & p_control):
     task(6, "decode_control"),
-    MessageReceivedChannel ( this, "MessageReceivedChannel")
-//    h_control(h_control)                 // HAS TO BE ADDED
-//        p_control(p_control),         // HAS TO BE ADDED
+    h_control(h_control),
+    p_control(p_control),
+    MessageReceivedChannel ( this, "MessageReceivedChannel"),
+    logger(log)
 {}
 
 void Decode_control::decode_msg(uint16_t msg) {
+//    logger.logText("msg_received:");
+//    logger.logInt(msg);
     MessageReceivedChannel.write(msg);
 }
 
@@ -32,20 +35,25 @@ void Decode_control::main() {
                 player_nr &= mask;
 
 
+//                logger.logText("playernr");
+//                logger.logInt(player_nr);
                 if(player_nr == 0){
                     if(first_msg){
                         gametime = msg;
                         gametime >>= 5;
                         gametime &= mask;
+                        logger.logText("gametime");
+                        logger.logInt(gametime);
                         first_msg = 0;
-                        hwlib::cout << "ho" << hwlib::endl;
                     }
                     else{
                         countdown = msg;
                         countdown >>= 5;
                         countdown &= mask;
-//                        game_struct s = {gametime, countdown};
-//                            p_control.start(s);                       // moet nog implemented worden
+                        logger.logText("countdown");
+                        logger.logInt(countdown);
+                        game_struct s = {gametime, countdown};
+                        p_control.start(s);
                         first_msg = 1;
                     }
                 }
@@ -53,11 +61,9 @@ void Decode_control::main() {
                     dmg = msg;
                     dmg >>= 5;
                     dmg &= mask;
-
-                    hwlib::cout << "hi" << hwlib::endl;
-
-//                    player_struct s = {player_nr, dmg};
-//                    h_control.hit_detected(s);                        // NEEDS TO BE IMPLEMENTED
+                    logger.logText("hit_detected");
+                    player_struct s = {player_nr, dmg};
+                    h_control.hit_detected(s);
                 }
                 break;
         }

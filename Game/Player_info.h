@@ -15,17 +15,19 @@ private:
     player_struct info;
 
 public:
+
     /// \brief
-	/// returns player info
-	/// \details
-	/// This method return the player info which contains the player number and damage.
+    /// returns player info
+    /// \details
+    /// This method return the player info which contains the player number and damage.
     player_struct get(){
         return info;
     }
+
     /// \brief
-	/// sets player info
-	/// \details
-	/// This method set the player info which contains the player number and damage.
+    /// sets player info
+    /// \details
+    /// This method set the player info which contains the player number and damage.
     void set(int player_nr, int dmg){
         info.player_nr = player_nr;
         info.dmg = dmg;

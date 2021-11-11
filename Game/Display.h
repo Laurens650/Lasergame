@@ -7,9 +7,9 @@
 /// \brief
 /// display ADT
 /// \details
-/// 
-/// 
-/// 
+///
+///
+///
 
 ///@file
 
@@ -46,25 +46,29 @@ private:
     void main();
 
 public:
+
     /// \brief
     /// display lives
     /// \details
     /// This method takes an integer as argument and shows the integer as lives on the display.
     void display_lives(int lives);
+
     /// \brief
     /// display time
     /// \details
     /// This method takes an integer (seconds) as argument and show the time in minutes and seconds on the display.
     void showtime(int seconds);
+
     /// \brief
     /// display lives
     /// \details
     /// This method takes an integer provided by the ingame leader and shows the time
     void show_command(int time_min);
+
     /// \brief
-	/// constructor of the display
-	/// \details
-	/// This constructor initializes the displays
+    /// constructor of the display
+    /// \details
+    /// This constructor initializes the displays
     display();
 
 };

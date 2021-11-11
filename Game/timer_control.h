@@ -3,12 +3,12 @@
 
 #include "hwlib.hpp"
 #include "rtos.hpp"
-#include "Game_control.h"
 #include "Display.h"
 
-///@file 
+///@file
 
 class game_control;
+
 /// \brief
 /// timer_control ADT
 /// \details
@@ -20,7 +20,7 @@ private:
     state_t state = IDLE;
     display & d;
 
-    game_control & g_control;
+    game_control *g_control;
     rtos::pool<int> timePool;
     rtos::flag timeFlag;
     rtos::timer Timer;
@@ -29,16 +29,21 @@ private:
     void main();
 
 public:
+
     /// \brief
-	/// Costructor for timer control
-	/// \details
-	/// This constructor initializes the timer control with a display and game control
-    timer_control(display & d, game_control & g_control);
+    /// Costructor for timer control
+    /// \details
+    /// This constructor initializes the timer control with a display and game control
+    timer_control(display & d);
+
     /// \brief
-	/// Signals start
-	/// \details
-	/// This method signals the other controls when the game is starting.
+    /// Signals start
+    /// \details
+    /// This method signals the other controls when the game is starting.
     void start(int gametime);
+
+    void set_game_p(game_control *game);
+
 };
 
 #endif //TIMER_CONTROL_H

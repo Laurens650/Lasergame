@@ -5,6 +5,7 @@
 #include "rtos.hpp"
 
 ///@file
+
 /// \brief
 /// player data struct
 /// \details
@@ -42,9 +43,9 @@ struct game_struct {
 };
 
 /// \brief
-/// Verifies message
+/// generates IR-checksum for given message
 /// \details
-/// This function returns a generated checksum to verify if a message has been received correctly.
+/// This function returns a generated checksum of a given message, to be used to verify incoming messages.
 static uint16_t generate_checksum(uint16_t msg) {
     uint16_t checksum_mask_first = 0x4000;
     uint16_t checksum_mask_second = 0x200;

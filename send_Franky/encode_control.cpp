@@ -29,7 +29,7 @@ void Encode_control::main(){
 					msg = encode(0, gametime);
 					sendControl.send_msg(msg);
 					msg = encode(0, countdown);
-//					sendControl.send_msg(msg);
+					sendControl.send_msg(msg);
 					state = IDLE;
 					break;
 				}
@@ -37,11 +37,12 @@ void Encode_control::main(){
 	}
 }
 
-Encode_control::Encode_control(Send_IR_control & sendControl):
+Encode_control::Encode_control(Send_IR_control & sendControl, Logger & log):
 	task(7, "encode_control"),
 	sendControl (sendControl),
 	shootStructChannel (this, "shootStructChannel"),
-	gameStructChannel (this, "gameStructChannel")
+	gameStructChannel (this, "gameStructChannel"),
+	logger(log)
 {}
 
 void Encode_control::shoot(player_struct shoot_info){

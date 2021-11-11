@@ -3,11 +3,12 @@
 void schiet_control::main() {
     for (;;) {
         switch (state) {
-            case IDLE:
+            case IDLE: {
                 wait(StartFlag);
                 state = READY_TO_SHOOT;
                 break;
-            case READY_TO_SHOOT:
+            }
+            case READY_TO_SHOOT: {
                 led.write(0);
                 auto evt = wait(StopFlag + ButtonPressedFlag);
                 if (evt == StopFlag) {
@@ -16,10 +17,15 @@ void schiet_control::main() {
                     state = COOLDOWN;
                     bieper.play_shoot();
                     led.write(1);
+                    shoot_struct = p_info.get();
+//                    logger.logText("shoot_struct_info");
+//                    logger.logInt(shoot_struct.player_nr);
+//                    logger.logInt(shoot_struct.dmg);
                     e_control.shoot(shoot_struct);
                 }
                 break;
-            case COOLDOWN:
+            }
+            case COOLDOWN: {
                 Timer.set(1000000 / firerate);
                 auto evt2 = wait(StopFlag + Timer);
                 if (evt2 == StopFlag) {
@@ -28,12 +34,14 @@ void schiet_control::main() {
                     state = READY_TO_SHOOT;
                 }
                 break;
+            }
         }
     }
 }
 
-schiet_control::schiet_control(Encode_control & e_control, Bieper & bieper, Player_info & p, hwlib::target::pin_out & led):
-    task(3, "schiet_control"),
+schiet_control::schiet_control(Encode_control & e_control, Bieper & bieper, Player_info & p, hwlib::pin_out & led, Logger &logger):
+    task(11, "schiet_control"),
+    led(led),
     p_info(p),
     e_control(e_control),
     bieper(bieper),
@@ -42,8 +50,9 @@ schiet_control::schiet_control(Encode_control & e_control, Bieper & bieper, Play
     ButtonPressedFlag(this, "ButtonPressedFlag"),
     ButtonReleasedFlag(this, "ButtonReleasedFlag"),
     Timer(this, "Timer"),
-    led(led)
+    logger(logger)
 {}
+
 void schiet_control::start(){
     StartFlag.set();
 }
